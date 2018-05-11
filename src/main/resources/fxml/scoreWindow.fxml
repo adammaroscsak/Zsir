@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright (C) 2018 Adam
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane prefHeight="400.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScoreTable.ScoreTableController">
+   <children>
+      <TableView fx:id="tableview" prefHeight="400.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <columns>
+                    <TableColumn prefWidth="125.0" text="Név">
+                         <cellValueFactory>
+                              <PropertyValueFactory property="name" />
+                         </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="125.0" text="Pontszám">
+                         <cellValueFactory>
+                              <PropertyValueFactory property="score" />
+                         </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="125.0" text="Dátum">
+                         <cellValueFactory>
+                              <PropertyValueFactory property="date" />
+                         </cellValueFactory>
+                    </TableColumn>
+               </columns>
+      </TableView>
+   </children>
+</AnchorPane>

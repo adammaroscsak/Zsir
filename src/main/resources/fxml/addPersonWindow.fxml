@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright (C) 2018 Adam
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="mainPane" styleClass="root" stylesheets="@../styles/Styles1.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScoreTable.AddPersonDialogController">
+   <columnConstraints>
+      <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="200.0" />
+      <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="200.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="70.0" />
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="70.0" />
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="70.0" />
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="70.0" />
+   </rowConstraints>
+   <children>
+      <TextField fx:id="nameField" layoutX="240.0" layoutY="188.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Text id="message-text" layoutX="228.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kérem adja meg a nevét!" textAlignment="CENTER" wrappingWidth="350.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="okButton" layoutX="188.0" layoutY="296.0" mnemonicParsing="false" onMouseClicked="#savePerson" text="Ok" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button layoutX="357.0" layoutY="296.0" mnemonicParsing="false" onMouseClicked="#cancel" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Text id="warning-text" fx:id="warningText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="A név minimum 3,maximum 13 karakter lehet!" textAlignment="CENTER" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+   </children>
+</GridPane>
