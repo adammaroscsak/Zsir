@@ -189,7 +189,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.15</version>
                 <configuration>
-                    <configLocation>${basedir}/config/checkstyle.xml</configLocation>
+                    <configLocation>${basedir}/checkstyle.xml</configLocation>
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
