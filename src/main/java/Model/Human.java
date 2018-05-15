@@ -17,8 +17,9 @@
 package Model;
 
 import Operator.CallOperator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Model class for a human player.
@@ -26,6 +27,8 @@ import java.util.logging.Logger;
  * @author adam
  */
 public class Human extends Player {
+    
+    private static final Logger logger = LoggerFactory.getLogger(Human.class.getName());
 
     /**
      * Waits for choosing then call the choosed card.
@@ -38,7 +41,7 @@ public class Human extends Player {
             wait();
             CallOperator.getCallOperator().apply(game);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Human.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(null, ex);
         }
     }
 
@@ -75,7 +78,7 @@ public class Human extends Player {
                 CallOperator.getCallOperator().apply(game);
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(Human.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(null, ex);
         }
     }
 
@@ -90,4 +93,6 @@ public class Human extends Player {
     }
 
 }
+
+
 
