@@ -17,8 +17,6 @@
 package ScoreTable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,22 +28,21 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 
 /**
  * Class for manipulating the stored score table.
@@ -74,7 +71,7 @@ public class ScoreTableData {
         mainDir = Paths.get(homeDir, ".Zsir");
         initEnvironment();
     }
-
+        
     /**
      * Initializes the xml file.
      */
@@ -100,29 +97,26 @@ public class ScoreTableData {
      */
     public static void addPerson(Person newPerson) {
         try {
-            JAXBContext context = JAXBContext.newInstance(Persons.class);
+            JAXBContext context = JAXBContext.newInstance(Persons.class);        
+            
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.newDocument();
+            docBuilder.setEntityResolver(new EntityResolverImpl());
+          
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
             Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            spf.setValidating(false);
-            XMLReader xmlReader = spf.newSAXParser().getXMLReader();
-            xmlReader.setEntityResolver((String publicId, String systemId)
-                    -> new InputSource(Paths.get(mainDir.toString(), "scoretable.dtd").toString()));
-            InputSource inputSource = new InputSource(new FileReader(getFile()));
-            SAXSource source = new SAXSource(xmlReader, inputSource);
-
-            Persons persons = (Persons) unmarshaller.unmarshal(source);
+            Persons persons = (Persons) unmarshaller.unmarshal(XMLFile);
             persons.addPerson(newPerson);
 
-            Marshaller m = context.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-            Document doc = df.newDocumentBuilder().newDocument();
             m.marshal(persons, doc);
 
             write(doc);
-        } catch (ParserConfigurationException | JAXBException | SAXException | FileNotFoundException ex) {
+        } catch (ParserConfigurationException | JAXBException ex) {
             logger.error("An error occured during the adding a person to the xml file.", ex);
+            
         }
     }
 
@@ -135,7 +129,7 @@ public class ScoreTableData {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
+            Source source = new DOMSource(doc);
             StreamResult result = new StreamResult(XMLFile);
             transformer.setOutputProperty(
                     OutputKeys.DOCTYPE_SYSTEM, "scoretable.dtd");
@@ -143,7 +137,7 @@ public class ScoreTableData {
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             transformer.transform(source, result);
         } catch (TransformerException ex) {
-            logger.error("An error occured during the writing the xml file.", ex);
+            logger.error("An error occured during the writing the xml file.", ex.getMessage());
         }
     }
 
@@ -158,7 +152,7 @@ public class ScoreTableData {
             XMLFile = path.toFile();
             initFile();
         } catch (IOException ex) {
-            logger.error("An error occured during the creating the xml file.", ex);
+            logger.error("An error occured during the creating the xml file.", ex.getMessage());
         }
     }
 
@@ -230,7 +224,7 @@ public class ScoreTableData {
             try {
                 Files.createDirectory(mainDir);
             } catch (IOException ex) {
-                logger.error("An error occured during the creating the main directory of the game.", ex);
+                logger.error("An error occured during the creating the main directory of the game.", ex.getLocalizedMessage());
             }
         }
 
@@ -240,7 +234,7 @@ public class ScoreTableData {
             } catch (IOException ex) {
                 logger.error(
                         "An error occured during the copying the dtd file into the main directory of the game.",
-                        ex);
+                        ex.getLocalizedMessage());
             }
         }
 
@@ -252,6 +246,17 @@ public class ScoreTableData {
             if (!isValid()) {
                 initFile();
             }
+        }
+    }
+
+    private static class EntityResolverImpl implements EntityResolver {
+
+        public EntityResolverImpl() {
+        }
+
+        @Override
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+            return new InputSource(Paths.get(mainDir.toString(), "scoretable.dtd").toString());
         }
     }
 
