@@ -72,6 +72,11 @@ public class CallOperatorTest {
     public void firstCall() {
         assertTrue(calloperator.isApplicable(game));
     }
+    
+    @Test
+    public void lastCall() {
+        assertTrue(calloperator.isApplicable(game));
+    }
 
     @Test
     public void canHold() {
