@@ -62,7 +62,6 @@ public class MainController {
     private void newGame(ActionEvent event) {
         if (game == null) {
             startNewGame();
-            checkbutton.setVisible(true);
         } else if (!game.isGoal()) {
             ConfirmDialog confirmDialog = ConfirmDialog.getDialog();
             Optional<ButtonType> result = confirmDialog.showAndWait();
@@ -119,6 +118,7 @@ public class MainController {
      * Starts a new game.
      */
     private void startNewGame() {
+        checkbutton.setVisible(true);
         game = new Game();
         game.start();
         gameService = new Service<Boolean>() {
@@ -140,6 +140,7 @@ public class MainController {
             if (flag) {
                 gameService.restart();
             } else {
+                checkbutton.setVisible(false);
                 AddPersonDialogController.setScore(game.getPlayerA().getScore());
                 AddPersonDialog.getAddpersonstage().show();
             }
