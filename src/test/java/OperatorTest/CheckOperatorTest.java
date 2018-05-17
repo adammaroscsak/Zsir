@@ -59,6 +59,12 @@ public class CheckOperatorTest {
     }
     
     @Test
+    public void canCheck2() {
+        initTable(new Card(Rank.felso, Suit.piros), new Card(Rank.felso, Suit.zold));
+        assertTrue(checkoperator.isApplicable(game));
+    }
+    
+    @Test
     public void emptyTable() {
         assertFalse(checkoperator.isApplicable(game));
     }
@@ -66,6 +72,12 @@ public class CheckOperatorTest {
     @Test
     public void cantCheck() {
         initTable(new Card(Rank.felso, Suit.makk));
+        assertFalse(checkoperator.isApplicable(game));
+    }
+    
+    @Test
+    public void cantCheck2() {
+        initTable(new Card(Rank.kiraly, Suit.makk));
         assertFalse(checkoperator.isApplicable(game));
     }
     
